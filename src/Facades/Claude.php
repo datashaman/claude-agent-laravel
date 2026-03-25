@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static list<\DataShaman\Claude\AgentSdk\Message\Message> getSessionMessages(string $sessionId)
  * @method static \DataShaman\Claude\AgentSdk\ClaudeAgentOptions buildOptions(array $overrides = [])
  *
- * @see \DataShaman\Claude\AgentLaravel\ClaudeManager
+ * @see ClaudeManager
  */
 class Claude extends Facade
 {

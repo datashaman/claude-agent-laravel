@@ -12,13 +12,14 @@
     "require": {
         "php": ">=8.2",
         "datashaman/claude-agent-sdk": "^0.1",
-        "illuminate/contracts": "^12.0",
-        "illuminate/support": "^12.0"
+        "illuminate/contracts": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0"
     },
     "require-dev": {
         "livewire/livewire": "^3.0",
-        "orchestra/testbench": "^10.0",
-        "phpunit/phpunit": "^11.0"
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.0",
+        "laravel/pint": "^1.29"
     },
     "autoload": {
         "psr-4": {

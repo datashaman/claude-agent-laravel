@@ -7,13 +7,14 @@ namespace DataShaman\Claude\AgentLaravel\Tests\Feature;
 use DataShaman\Claude\AgentLaravel\Livewire\ClaudeChat;
 use DataShaman\Claude\AgentLaravel\Tests\TestCase;
 use Livewire\Livewire;
+use Livewire\LivewireServiceProvider;
 
 class LivewireTest extends TestCase
 {
     protected function getPackageProviders($app): array
     {
         return array_merge(parent::getPackageProviders($app), [
-            \Livewire\LivewireServiceProvider::class,
+            LivewireServiceProvider::class,
         ]);
     }
 
@@ -21,7 +22,7 @@ class LivewireTest extends TestCase
     {
         parent::setUp();
 
-        if (!class_exists(Livewire::class)) {
+        if (! class_exists(Livewire::class)) {
             $this->markTestSkipped('Livewire is not installed.');
         }
     }

@@ -13,7 +13,7 @@ class ClaudeServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/claude.php', 'claude');
+        $this->mergeConfigFrom(__DIR__.'/../config/claude.php', 'claude');
 
         $this->app->singleton(ClaudeManager::class, function ($app) {
             return new ClaudeManager($app['config']->get('claude', []));
@@ -23,11 +23,11 @@ class ClaudeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/claude.php' => config_path('claude.php'),
+            __DIR__.'/../config/claude.php' => config_path('claude.php'),
         ], 'claude-config');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/claude'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/claude'),
         ], 'claude-views');
 
         if ($this->app->runningInConsole()) {
@@ -39,10 +39,10 @@ class ClaudeServiceProvider extends ServiceProvider
         }
 
         if ($this->app['config']->get('claude.streaming.enabled', true)) {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/claude.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/claude.php');
         }
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'claude');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'claude');
 
         if (class_exists(\Livewire\Livewire::class)) {
             \Livewire\Livewire::component('claude-chat', Livewire\ClaudeChat::class);
