@@ -18,7 +18,8 @@
     "require-dev": {
         "livewire/livewire": "^3.0",
         "orchestra/testbench": "^10.0",
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "laravel/pint": "^1.29"
     },
     "autoload": {
         "psr-4": {

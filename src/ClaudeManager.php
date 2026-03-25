@@ -68,7 +68,7 @@ class ClaudeManager
         }
 
         $allowedTools = $overrides['allowed_tools'] ?? $this->config['allowed_tools'] ?? [];
-        if (!empty($allowedTools)) {
+        if (! empty($allowedTools)) {
             $options = $options->allowedTools($allowedTools);
         }
 

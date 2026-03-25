@@ -19,6 +19,7 @@ class SessionsListCommand extends Command
 
         if (empty($sessions)) {
             $this->info('No sessions found.');
+
             return self::SUCCESS;
         }
 

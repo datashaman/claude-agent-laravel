@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DataShaman\Claude\AgentLaravel\Tests\Feature;
 
+use DataShaman\Claude\AgentLaravel\ClaudeServiceProvider;
 use DataShaman\Claude\AgentLaravel\Tests\TestCase;
 
 class StreamingTest extends TestCase
@@ -20,7 +21,7 @@ class StreamingTest extends TestCase
         config(['claude.streaming.enabled' => false]);
 
         // Re-boot the provider to pick up the config change
-        $this->app->register(\DataShaman\Claude\AgentLaravel\ClaudeServiceProvider::class, true);
+        $this->app->register(ClaudeServiceProvider::class, true);
 
         // The route was already registered in the initial boot, so we verify
         // the config flag exists and is respected
@@ -38,7 +39,7 @@ class StreamingTest extends TestCase
     {
         config(['claude.streaming.route_prefix' => 'ai']);
 
-        $this->app->register(\DataShaman\Claude\AgentLaravel\ClaudeServiceProvider::class, true);
+        $this->app->register(ClaudeServiceProvider::class, true);
 
         // Verify config was changed
         $this->assertEquals('ai', config('claude.streaming.route_prefix'));

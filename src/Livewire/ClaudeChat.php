@@ -10,10 +10,15 @@ use Livewire\Component;
 class ClaudeChat extends Component
 {
     public string $model = '';
+
     public string $systemPrompt = '';
+
     public string $sessionId = '';
+
     public string $input = '';
+
     public array $messages = [];
+
     public bool $loading = false;
 
     public function mount(

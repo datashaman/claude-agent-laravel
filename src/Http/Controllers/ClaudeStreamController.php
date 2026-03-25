@@ -32,7 +32,7 @@ class ClaudeStreamController extends Controller
             foreach ($messages as $message) {
                 $text = $message->getTextContent();
                 if ($text !== null) {
-                    echo "data: " . json_encode(['text' => $text]) . "\n\n";
+                    echo 'data: '.json_encode(['text' => $text])."\n\n";
                     if (ob_get_level()) {
                         ob_flush();
                     }

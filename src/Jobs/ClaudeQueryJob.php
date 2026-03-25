@@ -49,7 +49,7 @@ class ClaudeQueryJob implements ShouldQueue
                 $this->prompt,
                 $response,
                 $sessionId,
-                new \DateTimeImmutable(),
+                new \DateTimeImmutable,
             );
         } catch (\Throwable $e) {
             ClaudeQueryFailed::dispatch(

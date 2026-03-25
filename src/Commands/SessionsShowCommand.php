@@ -22,6 +22,7 @@ class SessionsShowCommand extends Command
             $messages = $manager->getSessionMessages($sessionId);
         } catch (SessionNotFoundException $e) {
             $this->error("Session not found: {$sessionId}");
+
             return self::FAILURE;
         }
 
