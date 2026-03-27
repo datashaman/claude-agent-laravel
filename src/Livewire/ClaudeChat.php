@@ -49,6 +49,7 @@ class ClaudeChat extends Component
 
         if ($this->streaming) {
             $this->dispatch('claude-stream-start', prompt: $prompt);
+
             return;
         }
 
