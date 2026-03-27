@@ -21,25 +21,27 @@ class ClaudeChat extends Component
 
     public bool $loading = false;
 
+    public bool $streaming = true;
+
     public function mount(
         string $model = '',
         string $systemPrompt = '',
         string $sessionId = '',
+        ?bool $streaming = null,
     ): void {
         $this->model = $model;
         $this->systemPrompt = $systemPrompt;
         $this->sessionId = $sessionId;
+        $this->streaming = $streaming ?? config('claude.streaming.enabled', true);
     }
 
-    public function sendMessage(): void
+    public function sendMessage(string $prompt): void
     {
-        if (trim($this->input) === '') {
+        if (trim($prompt) === '') {
             return;
         }
 
-        $prompt = $this->input;
         $this->messages[] = ['role' => 'user', 'content' => $prompt];
-        $this->input = '';
         $this->loading = true;
 
         $manager = app(ClaudeManager::class);
@@ -66,6 +68,12 @@ class ClaudeChat extends Component
         }
 
         $this->messages[] = ['role' => 'assistant', 'content' => $response];
+        $this->loading = false;
+    }
+
+    public function streamComplete(string $ignored, array $messages): void
+    {
+        $this->messages = $messages;
         $this->loading = false;
     }
 

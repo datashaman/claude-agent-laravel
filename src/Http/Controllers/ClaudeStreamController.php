@@ -30,6 +30,9 @@ class ClaudeStreamController extends Controller
             $messages = $manager->query($request->input('prompt'), $overrides);
 
             foreach ($messages as $message) {
+                if ($message->type !== 'assistant') {
+                    continue;
+                }
                 $text = $message->getTextContent();
                 if ($text !== null) {
                     echo 'data: '.json_encode(['text' => $text])."\n\n";
