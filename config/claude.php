@@ -6,6 +6,8 @@ return [
     'system_prompt' => env('CLAUDE_SYSTEM_PROMPT', ''),
     'max_turns' => env('CLAUDE_MAX_TURNS', 0),
     'allowed_tools' => [],
+    'bare' => env('CLAUDE_BARE', false),
+    'exclude_env_keys' => null,
     'queue' => env('CLAUDE_QUEUE'),
     'streaming' => [
         'enabled' => true,
