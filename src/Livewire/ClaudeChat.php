@@ -21,27 +21,48 @@ class ClaudeChat extends Component
 
     public bool $loading = false;
 
+    public bool $streaming = true;
+
     public function mount(
         string $model = '',
         string $systemPrompt = '',
         string $sessionId = '',
+        ?bool $streaming = null,
     ): void {
         $this->model = $model;
         $this->systemPrompt = $systemPrompt;
         $this->sessionId = $sessionId;
+        $this->streaming = $streaming ?? config('claude.streaming.enabled', true);
     }
 
     public function sendMessage(): void
     {
-        if (trim($this->input) === '') {
+        $prompt = trim($this->input);
+        $this->input = '';
+
+        if ($prompt === '') {
             return;
         }
 
-        $prompt = $this->input;
         $this->messages[] = ['role' => 'user', 'content' => $prompt];
-        $this->input = '';
         $this->loading = true;
 
+        if ($this->streaming) {
+            $this->dispatch('claude-stream-start', prompt: $prompt);
+            return;
+        }
+
+        $this->queryAndAppendResponse($prompt);
+    }
+
+    public function streamComplete(string $content, array $messages): void
+    {
+        $this->messages = $messages;
+        $this->loading = false;
+    }
+
+    private function queryAndAppendResponse(string $prompt): void
+    {
         $manager = app(ClaudeManager::class);
 
         $overrides = array_filter([
@@ -51,9 +72,8 @@ class ClaudeChat extends Component
         ]);
 
         $response = '';
-        $messages = $manager->query($prompt, $overrides);
 
-        foreach ($messages as $message) {
+        foreach ($manager->query($prompt, $overrides) as $message) {
             if ($this->sessionId === '' && $message->sessionId !== '') {
                 $this->sessionId = $message->sessionId;
             }
