@@ -132,7 +132,8 @@
             if (streaming) {
                 this.streamResponse(prompt);
             } else {
-                $wire.sendMessage(prompt).then(() => {
+                $wire.set('input', prompt);
+                $wire.sendMessage().then(() => {
                     this.messages = $wire.messages;
                     this.loading = false;
                     this.scrollToBottom();

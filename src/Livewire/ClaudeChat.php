@@ -35,15 +35,34 @@ class ClaudeChat extends Component
         $this->streaming = $streaming ?? config('claude.streaming.enabled', true);
     }
 
-    public function sendMessage(string $prompt): void
+    public function sendMessage(): void
     {
-        if (trim($prompt) === '') {
+        $prompt = trim($this->input);
+        $this->input = '';
+
+        if ($prompt === '') {
             return;
         }
 
         $this->messages[] = ['role' => 'user', 'content' => $prompt];
         $this->loading = true;
 
+        if ($this->streaming) {
+            $this->dispatch('claude-stream-start', prompt: $prompt);
+            return;
+        }
+
+        $this->queryAndAppendResponse($prompt);
+    }
+
+    public function streamComplete(string $content, array $messages): void
+    {
+        $this->messages = $messages;
+        $this->loading = false;
+    }
+
+    private function queryAndAppendResponse(string $prompt): void
+    {
         $manager = app(ClaudeManager::class);
 
         $overrides = array_filter([
@@ -53,9 +72,8 @@ class ClaudeChat extends Component
         ]);
 
         $response = '';
-        $messages = $manager->query($prompt, $overrides);
 
-        foreach ($messages as $message) {
+        foreach ($manager->query($prompt, $overrides) as $message) {
             if ($this->sessionId === '' && $message->sessionId !== '') {
                 $this->sessionId = $message->sessionId;
             }
@@ -68,12 +86,6 @@ class ClaudeChat extends Component
         }
 
         $this->messages[] = ['role' => 'assistant', 'content' => $response];
-        $this->loading = false;
-    }
-
-    public function streamComplete(string $ignored, array $messages): void
-    {
-        $this->messages = $messages;
         $this->loading = false;
     }
 
