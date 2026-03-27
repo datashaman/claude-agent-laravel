@@ -77,6 +77,16 @@ class ClaudeManager
             $options = $options->sessionId($sessionId);
         }
 
+        $bare = $overrides['bare'] ?? $this->config['bare'] ?? false;
+        if ($bare) {
+            $options = $options->bare();
+        }
+
+        $excludeEnvKeys = $overrides['exclude_env_keys'] ?? $this->config['exclude_env_keys'] ?? null;
+        if (is_array($excludeEnvKeys)) {
+            $options = $options->excludeEnvKeys($excludeEnvKeys);
+        }
+
         return $options;
     }
 }
