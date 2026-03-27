@@ -54,12 +54,14 @@ class ClaudeChat extends Component
         $messages = $manager->query($prompt, $overrides);
 
         foreach ($messages as $message) {
-            $text = $message->getTextContent();
-            if ($text !== null) {
-                $response .= $text;
-            }
             if ($this->sessionId === '' && $message->sessionId !== '') {
                 $this->sessionId = $message->sessionId;
+            }
+            if ($message->type === 'assistant') {
+                $text = $message->getTextContent();
+                if ($text !== null) {
+                    $response .= $text;
+                }
             }
         }
 
